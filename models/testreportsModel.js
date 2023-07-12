@@ -8,14 +8,14 @@ const reptSchema = mongoose.Schema({
         required: true
     },
     doctor:{
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: [Doctor]
+        ref: 'Doctor'
     },
     patient:{
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: [Patient]
+        ref: 'Patient'
     },
 
     result: {
