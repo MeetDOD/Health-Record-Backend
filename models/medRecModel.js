@@ -5,7 +5,7 @@ const Medication = require('./medicationsModel');
 
 const medicalRecord = mongoose.Schema({
     patientId:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[Patient]
     },
@@ -14,13 +14,13 @@ const medicalRecord = mongoose.Schema({
         default:Date.now()
     },
     doctor_name:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[Doctor],
         default:'Ashish Babu'
     },
     prescription:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[Medication]
     },
@@ -29,7 +29,7 @@ const medicalRecord = mongoose.Schema({
         required:true
     },
     testResult:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[Test]
     },
