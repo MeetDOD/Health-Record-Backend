@@ -7,7 +7,7 @@ const medicalRecord = mongoose.Schema({
     patientId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:[Patient]
+        ref:'Patient'
     },
     record_date:{
         type:Date,
@@ -16,13 +16,13 @@ const medicalRecord = mongoose.Schema({
     doctor_name:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:[Doctor],
+        ref:'Doctor',
         default:'Ashish Babu'
     },
     prescription:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:[Medication]
+        ref:'Medication'
     },
     disease:{
         type:String,
@@ -31,7 +31,7 @@ const medicalRecord = mongoose.Schema({
     testResult:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:[Test]
+        ref:'Test'
     },
 })
 
