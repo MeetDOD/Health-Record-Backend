@@ -15,7 +15,7 @@ const medicationModel = mongoose.Schema({
     },
 
     medRecord: [{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[MedRecord]
     }]
