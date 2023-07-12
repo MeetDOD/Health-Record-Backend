@@ -24,7 +24,7 @@ const doctorModel = mongoose.Schema({
     medRecords: [{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:[MedRecord]
+        ref:'MedRecord'
     }]
 })
 
