@@ -22,7 +22,7 @@ const doctorModel = mongoose.Schema({
     },
     
     medRecords: [{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:[MedRecord]
     }]
