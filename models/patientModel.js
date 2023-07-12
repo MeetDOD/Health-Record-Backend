@@ -32,8 +32,8 @@ const patientSchema = mongoose.Schema({
     },
 
     medical_history: {
-        type: mongoose.Types.ObjectId,
-        ref: [MedRecord]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MedRecord'
     },
 
     insurance_details: {
