@@ -18,7 +18,7 @@ const patientSchema = mongoose.Schema({
     },
 
     date_of_birth:{
-        type: Date,
+        type: String,
         required: [true, "date of birth is required"],
     },
 
@@ -28,16 +28,18 @@ const patientSchema = mongoose.Schema({
 
     contact_info: {
         type: Number,
+        minLength: 10,
+        maxLength: 12,
         required: [true, "phone no. is required"],
     },
 
-    medical_history: {
+    medical_history:[ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MedRecord'
-    },
+    }],
 
     insurance_details: {
-        type: Number
+        type: String
     }
 });
 
