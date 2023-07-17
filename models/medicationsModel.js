@@ -14,11 +14,11 @@ const medicationModel = mongoose.Schema({
         required:true
     },
 
-    medRecord: [{
+    medRecord: {
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'MedRecord'
-    }]
+    }
 })
 
 const Medication = mongoose.model('Medication',medicationModel);

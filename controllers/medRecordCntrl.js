@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler')
-const MedRecord = require('../models/medRecModel')
+const MedRecord = require('../models/medRecModel');
+const { Patient } = require('../models/patientModel');
+const Doctor = require('../models/doctorModel');
 const getAllMeds = asyncHandler(async (req,res) => {
 
     const medRec = await MedRecord.find({})
@@ -14,11 +16,19 @@ const addMedRec = asyncHandler(async(req,res)=>{
         throw new Error("All fields are mandatory");
     }
 
-    const patient = await MedRecord.create({patientId,
+    const medRec = await MedRecord.create({patientId,
         testResult,doctor_name,prescription,disease
     });
 
-    res.status(200).json(patient);
+    const patient = await Patient.findById({_id: patientId});
+    await patient.medical_history.push(medRec);
+    patient.save();
+
+    const doctor = await Doctor.findById({_id: doctor_name});
+    await doctor.medRecords.push(medRec)
+    doctor.save()
+
+    res.status(200).json(medRec);
 });
 
 const getSingleMedRec = asyncHandler(async(req,res)=>{
@@ -34,11 +44,13 @@ const getSingleMedRec = asyncHandler(async(req,res)=>{
 
 const deleteMedRecord = asyncHandler(async(req, res)=>{
     const {id: medId} = req.params;
+    const medRecd = await MedRecord.findById({_id: medId});
     const medRec = await MedRecord.findByIdAndDelete({_id: medId});
     if(!medRec){
         res.status(404);
         throw new Error(`Med record with id ${medId} does not exist`);
     }
+
     res.status(200).json({rec:medRec,mssg:"medicine deleted succesfully"});
     
 })

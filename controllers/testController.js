@@ -38,3 +38,6 @@ const deleteTest = asyncHandler(async(req,res)=>{
     res.status(200).json({"msg": "Deleted"})
     
 })
+
+
+module.exports = {getAllTest,getSingleTest,deleteTest,addTest};
