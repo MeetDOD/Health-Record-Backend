@@ -11,13 +11,13 @@ const getAllMeds = asyncHandler(async (req,res) => {
 const addMedRec = asyncHandler(async(req,res)=>{
     const {patientId,doctor_name,prescription,disease,testResult} = req.body;
 
-    if(!patientId || !doctor_name || !prescription || !disease || !testResult ){
+    if(!patientId || !doctor_name || !prescription || !disease){
         res.status(400);
         throw new Error("All fields are mandatory");
     }
 
     const medRec = await MedRecord.create({patientId,
-        testResult,doctor_name,prescription,disease
+        doctor_name,prescription,disease
     });
 
     const patient = await Patient.findById({_id: patientId});
@@ -45,7 +45,7 @@ const getSingleMedRec = asyncHandler(async(req,res)=>{
 const deleteMedRecord = asyncHandler(async(req, res)=>{
     const {id: medId} = req.params;
     const medRecd = await MedRecord.findById({_id: medId});
-    const medRec = await MedRecord.findByIdAndDelete({_id: medId});
+    const medRec = await MedRecord.findOneAndDelete({_id: medId});
     if(!medRec){
         res.status(404);
         throw new Error(`Med record with id ${medId} does not exist`);
@@ -53,13 +53,27 @@ const deleteMedRecord = asyncHandler(async(req, res)=>{
 
     res.status(200).json({rec:medRec,mssg:"medicine deleted succesfully"});
     
+});
+
+const updateMedRec = asyncHandler(async(req,res)=>{
+    const updateRec = await MedRecord.findOneAndUpdate(req.params.id,
+            req.body,
+            {new: true}
+        )
+    if(!updateRec){
+        res.status(404);
+        throw new Error("MedRecord not found");
+    }
+    res.status(200).json(updateRec)
 })
+
 
 
 module.exports={
     deleteMedRecord,
     getSingleMedRec,
     getAllMeds,
-    addMedRec
+    addMedRec,
+    updateMedRec
 
 }

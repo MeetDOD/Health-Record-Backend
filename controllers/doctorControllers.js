@@ -1,25 +1,15 @@
-const mongoose = require('mongoose');
-const Docs =require("../models/doctorModel");
+const asyncHandler = require('express-async-handler')
+const Doctor = require('../models/doctorModel')
 
-const getAllDoc = async (req,res) => {
+const getAllDoc = asyncHandler( async (req,res) => {
 
-    let docs;
+    
+    const docs = await Doctor.find({}).lean();
+    return res.status(200).json({ docs })
+    
+})
 
-    try{
-        docs = await Docs.find({});
-        console.log(docs);
-    }catch(er){
-        return console.log(er);
-    }
-
-    if(!docs){
-        return res.status(500).json({ message : "No Doctor Found"})
-    }else{
-        return res.status(200).json({ docs })
-    }
-}
-
-const addDoc = async (req,res) => {
+const addDoc = asyncHandler( async (req,res) => {
 
     const {fname,lname,specialization,contact_info} = req.body;
 
@@ -28,42 +18,41 @@ const addDoc = async (req,res) => {
         !specialization && specialization.trim() === "" &&
         !contact_info && contact_info.trim()
     ){
-        return res.status(422).json({message : "Invalid data, Please Enter valid Data"}) 
+        res.status(422);
+        throw new Error("Invalid data")
     }
 
-    try{
-        const newDoctor = await Docs.create({
+    
+        const newDoctor = await Doctor.create({
             fname,
             lname,
             specialization,
             contact_info
         });
         res.status(201).json(newDoctor);
-        console.log('Successfully Created Docoter')
-    }catch(er){
-        return console.log(er);
-    }
-}
+        
+   
+});
 
-const getDocById = async (req,res) => {
+const getDocById =asyncHandler( async (req,res) => {
     const id = req.params.id;
 
     let docs;
 
-    try{
-        docs = await Docs.findById(id);
-    }catch(er){
-        console.log(er)
-    }
+   
+    docs = await Doctor.findById(id).populate('medRecords');
+    
 
     if(!docs){
-        return res.status(404).json({  message : "No Docotor exist with such ID" })
-    }else{
-        return res.status(200).json({ docs })
+        res.status(404)
+        throw new Error("No doctor exists with such id")
     }
-}
+    
+    return res.status(200).json({ docs })
+    
+})
 
-const updateDoc = async (req,res) => {
+const updateDoc = asyncHandler( async (req,res) => {
     
     const id = req.params.id;
     const {fname,lname,specialization,contact_info} = req.body;
@@ -79,40 +68,39 @@ const updateDoc = async (req,res) => {
 
     let docs;
 
-    try{
-        docs = await Docs.findByIdAndUpdate(id,{
+    
+    docs = await Doctor.findByIdAndUpdate(id,{
             fname,
             lname,
             specialization,
             contact_info
         });
-    }catch(er){
-        return console.log(er);
-    }
+    
 
     if(!docs){
-        return res.status(500).json({ message : "Unable to update the Doctor" });
+        res.status(500);
+        throw new Error("Doctor with such id does not exists");
     }else{
         return res.status(200).json({ message : "Doctor Updated Successfully" });
     }
-}
+});
 
-const deleteDoc = async (req,res) => {
+const deleteDoc =asyncHandler(async (req,res) => {
     
     const id = req.params.id;
-    let docs;
 
-    try{
-        docs = await Docs.findByIdAndRemove(id);
-    }catch(er){
-        return console.log(er);
-    }
+
+   
+    const docs = await Doctor.findByIdAndRemove(id);
+    
 
     if(!docs){
-        return res.status(500).json({ message : "Unable to delete Doctor"});
-    }else{
-        return res.status(201).json({ message : "Deleted Successfully" });
+        res.status(500);
+        throw new Error("Doctor with such id does not exists");
     }
-}
+    
+    return res.status(201).json({ message : "Deleted Successfully" });
+
+})
 
 module.exports = {getAllDoc, addDoc,getDocById,updateDoc,deleteDoc};

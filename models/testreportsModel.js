@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
-const Doctor = require("./doctorModel")
-const { Patient } = require("./patientModel")
+
 
 const reptSchema = mongoose.Schema({
     name:{

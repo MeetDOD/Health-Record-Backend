@@ -5,7 +5,7 @@ const {Patient} = require('../models/patientModel');
 
 const getAllPatient = asyncHandler(async(req,res)=>{
 
-    patients = await Patient.find({});
+    const patients = await Patient.find().lean()
     res.status(200).json(patients);
 });
 

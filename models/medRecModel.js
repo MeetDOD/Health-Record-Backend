@@ -1,7 +1,5 @@
 const mongoose=require('mongoose');
-const { Patient } = require('./patientModel');
-const Doctor = require('./doctorModel');
-const Medication = require('./medicationsModel');
+;
 
 const medicalRecord = mongoose.Schema({
     patientId:{
@@ -30,7 +28,6 @@ const medicalRecord = mongoose.Schema({
     },
     testResult:{
         type:mongoose.Schema.Types.ObjectId,
-        required:true,
         ref:'Test'
     },
 })

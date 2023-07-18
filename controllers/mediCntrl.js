@@ -1,6 +1,6 @@
-import Medication from "../models/medicationsModel";
-
-module.exports.addMedication = async (req, res) => {
+const Medication = require('../models/medicationsModel');
+const asyncHandler = require('express-async-handler');
+const addMedication = async (req, res) => {
 
     const { name, description, dosage_instructions } = req.body;
     try {
@@ -24,8 +24,7 @@ module.exports.addMedication = async (req, res) => {
 
     }
 }
-
-module.exports.getMedication = async (req, res) => {
+const getMedication = async (req, res) => {
     try {
         const medications = await Medication.find();
         res.json({ medication: medications, mssg: "medication fetched successfully" });
@@ -34,8 +33,7 @@ module.exports.getMedication = async (req, res) => {
         console.log(error)
     }
 }
-
-module.exports.getMedicationById = async (req, res) => {
+const getMedicationById = async (req, res) => {
     const { id: MedicineId } = req.params.id;
     try {
         const medicine = await Medication.findById(MedicineId);
@@ -47,8 +45,7 @@ module.exports.getMedicationById = async (req, res) => {
         console.log(error)
     }
 }
-
-module.exports.deleteMed = async (req, res) => {
+const deleteMed = async (req, res) => {
     const { id: MedicineId } = req.params.id;
     try {
         const medicine = await Medication.findById(MedicineId);
@@ -64,4 +61,21 @@ module.exports.deleteMed = async (req, res) => {
         console.log(error)
 
     }
-}
+};
+
+
+const updateMedication = asyncHandler(async(req,res)=>{
+    const updateMedi = await Medication.findByIdAndUpdate(req.params.id,
+            req.body,
+            {new: true}
+        )
+    if(!updateMedi){
+        res.status(404);
+        throw new Error("MedRecord not found");
+    }
+    res.status(200).json(updateMedi)
+})
+
+
+
+module.exports = {getMedication,addMedication,getMedicationById,deleteMed,updateMedication}

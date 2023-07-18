@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const MedRecord = require('./medRecModel');
+
 
 const patientSchema = mongoose.Schema({
 
