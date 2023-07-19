@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 
 const connectDB = (url) => {
-    return mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true });
+    mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true });
+    console.log('mongo is running')
 }
 
 module.exports = connectDB;

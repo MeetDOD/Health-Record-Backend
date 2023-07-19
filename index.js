@@ -6,16 +6,12 @@ const testRoutes = require('./routes/testRoutes');
 const medRecRoutes = require('./routes/medRecRoutes');
 const medictnRoutes = require('./routes/medictnRoutes');
 const connectDB = require('./db/connect');
-
-
-
-
+const cors = require('cors')
 
 require('dotenv').config();
 
-
 const app = express();
-
+app.use(cors());
 
 const port = process.env.PORT || 3000
 
@@ -30,9 +26,6 @@ const start = async () => {
         console.log(err);
     }
 };
-
-
-
 
 app.use(express.json());
 app.use('/api/v1/patients', patientRoutes);
