@@ -27,7 +27,7 @@ const addMedication = async (req, res) => {
 const getMedication = async (req, res) => {
     try {
         const medications = await Medication.find();
-        res.json({ medication: medications, mssg: "medication fetched successfully" });
+        res.json(medications);
     } catch (error) {
         res.status(400).json({ mssg: "eroor in getting medications" })
         console.log(error)

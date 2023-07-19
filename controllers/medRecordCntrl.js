@@ -8,6 +8,7 @@ const getAllMeds = asyncHandler(async (req,res) => {
     res.status(200).json(medRec);
 });
 
+
 const addMedRec = asyncHandler(async(req,res)=>{
     const {patientId,doctor_name,prescription,disease,testResult} = req.body;
 
@@ -34,7 +35,7 @@ const addMedRec = asyncHandler(async(req,res)=>{
 const getSingleMedRec = asyncHandler(async(req,res)=>{
 
     const {id: medId} = req.params;
-    const medRec = await MedRecord.findById({_id: medId});
+    const medRec = await MedRecord.findById({_id: medId}).select(['-doctor_name']);
     if(!medRec){
         res.status(404);
         throw new Error(`Med record with id ${medId} does not exist`);
