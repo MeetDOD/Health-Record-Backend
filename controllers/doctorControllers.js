@@ -33,23 +33,18 @@ const addDoc = asyncHandler(async (req, res) => {
 
 });
 
-const getDocById = asyncHandler(async (req, res) => {
-    const id = req.params.id;
+const getDocById = asyncHandler(async (req,res) => {
 
-    let docs;
+    const { id: doctorId } = req.params;
+    const doctor = await Doctor.findById({_id: doctorId});
 
-
-    docs = await Doctor.findById(id).populate('medRecords');
-
-
-    if (!docs) {
-        res.status(404)
-        throw new Error("No doctor exists with such id")
+    if(!doctor){
+        res.status(404);
+        throw new Error(`Doctor with  id: ${patientId} does not exists`)
     }
 
-    return res.status(200).json(docs)
-
-})
+    res.status(200).json(doctor);
+});
 
 const updateDoc = asyncHandler(async (req, res) => {
 
