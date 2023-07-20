@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 ;
 
 const medicalRecord = mongoose.Schema({
-    patientId:{
+    for_patient:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'Patient'
@@ -11,25 +11,21 @@ const medicalRecord = mongoose.Schema({
         type:Date,
         default:Date.now()
     },
-    doctor_name:{
+    assigned_by_doctor:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'Doctor',
-        default:'Ashish Babu'
+        ref:'Doctor'
     },
     prescription:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'Medication'
     },
-    disease:{
-        type:String,
-        required:true
-    },
-    testResult:{
+
+    test_assigned:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Test'
-    },
+    }
 })
 
 const MedRecord = mongoose.model("MedRecord", medicalRecord);

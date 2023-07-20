@@ -26,8 +26,8 @@ const addMedication = async (req, res) => {
 }
 const getMedication = async (req, res) => {
     try {
-        const medications = await Medication.find();
-        res.json(medications);
+        const medications = await Medication.find({});
+        res.status(200).json(medications);
     } catch (error) {
         res.status(400).json({ mssg: "eroor in getting medications" })
         console.log(error)
@@ -36,7 +36,7 @@ const getMedication = async (req, res) => {
 const getMedicationById = async (req, res) => {
     const { id: MedicineId } = req.params.id;
     try {
-        const medicine = await Medication.findById(MedicineId);
+        const medicine = await Medication.findById({_id: MedicineId});
 
         res.json({ medication: medicine, mssg: `medicine fetched for ${MedicineId} ` })
 
@@ -48,7 +48,7 @@ const getMedicationById = async (req, res) => {
 const deleteMed = async (req, res) => {
     const { id: MedicineId } = req.params.id;
     try {
-        const medicine = await Medication.findById(MedicineId);
+        const medicine = await Medication.findById({_id: MedicineId});
         if (!medicine) {
             res.status(404);
             throw new Error(`Medicine record with id ${MedicineId} does not exist`);

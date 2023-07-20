@@ -2,19 +2,19 @@ const asyncHandler = require('express-async-handler');
 const {Test} = require('../models/testreportsModel') 
 const getAllTest = asyncHandler(async (req,res) => {
 
-    const tests = await Test.find({}).populate('patient');
-    res.status(200).json({"tests": tests, "msg": "Success"});
+    const tests = await Test.find({});
+    res.status(200).json(tests);
 });
 
 const addTest = asyncHandler(async(req,res)=>{
 
-    const {name,doctor,patient,result} = req.body;
-    if(!name || !doctor || !patient ||!result){
+    const {name,price,description,category} = req.body;
+    if(!name || !price || !description ||!category){
         res.status(400);
         throw new Error("all fields are required");
     }
 
-    const test = await Test.create({name,doctor,patient,result});
+    const test = await Test.create({name,price,description,category});
     res.status(200).json({"test": test,"msg": "All data received"});
 });
 
@@ -25,7 +25,7 @@ const getSingleTest = asyncHandler(async(req,res)=>{
         res.status(404);
         throw new Error("Test not found");
     }
-    res.status(200).json({"test": test, "msg": "Data received"});
+    res.status(200).json(test);
 });
 
 const deleteTest = asyncHandler(async(req,res)=>{

@@ -6,7 +6,9 @@ const testRoutes = require('./routes/testRoutes');
 const medRecRoutes = require('./routes/medRecRoutes');
 const medictnRoutes = require('./routes/medictnRoutes');
 const connectDB = require('./db/connect');
-const cors = require('cors')
+const cors = require('cors');
+const { Test } = require('./models/testreportsModel');
+const MedRecord = require('./models/medRecModel');
 
 require('dotenv').config();
 
@@ -26,6 +28,9 @@ const start = async () => {
         console.log(err);
     }
 };
+
+// MedRecord.deleteMany()
+
 
 app.use(express.json());
 app.use('/api/v1/patients', patientRoutes);
