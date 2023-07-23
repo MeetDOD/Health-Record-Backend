@@ -8,7 +8,7 @@ const { Test } = require('../models/testreportsModel');
 const getAllMeds = asyncHandler(async (req, res) => {
   const medRec = await MedRecord.find({}).toString()
 
-  res.status(200).json(medRecWithIdAsString);
+  res.status(200).json(medRec);
 });
 
 const addMedRec = asyncHandler(async(req,res)=>{
