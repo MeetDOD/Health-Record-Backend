@@ -1,5 +1,6 @@
 const Medication = require('../models/medicationsModel');
 const asyncHandler = require('express-async-handler');
+
 const addMedication = async (req, res) => {
 
     const { name, description, dosage_instructions } = req.body;
@@ -34,35 +35,29 @@ const getMedication = async (req, res) => {
     }
 }
 const getMedicationById = async (req, res) => {
-    const { id: MedicineId } = req.params.id;
+    const { id: MedicineId } = req.params;
     try {
         const medicine = await Medication.findById({_id: MedicineId});
 
-        res.json({ medication: medicine, mssg: `medicine fetched for ${MedicineId} ` })
+        res.status(200).json({ medication: medicine, mssg: `medicine fetched for ${MedicineId} ` })
 
     } catch (error) {
-        res.status(400).json({ mssg: "eroor in getting medications" })
+        res.status(400).json({ mssg: "error in getting medications" })
         console.log(error)
     }
 }
+
 const deleteMed = async (req, res) => {
-    const { id: MedicineId } = req.params.id;
-    try {
-        const medicine = await Medication.findById({_id: MedicineId});
-        if (!medicine) {
-            res.status(404);
-            throw new Error(`Medicine record with id ${MedicineId} does not exist`);
-        }
-        await Medication.findByIdAndDelete(MedicineId);
+    const id = req.params.id;
+    const medication = await Medication.findByIdAndRemove(id);
 
-        res.json({ medicine: MedicineId, mssg: `"Medicine ${MedicineId} deleted ` })
-    } catch (error) {
-        res.status(400).json({ mssg: "eroor in deletion of  medications" })
-        console.log(error)
-
+    if (!medication) {
+        res.status(500);
+        throw new Error("medocation with such id does not exists");
     }
-};
 
+    return res.status(201).json({ message: "Medication Successfully" });
+};
 
 const updateMedication = asyncHandler(async(req,res)=>{
     const updateMedi = await Medication.findByIdAndUpdate(req.params.id,
