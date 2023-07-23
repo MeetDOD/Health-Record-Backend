@@ -5,10 +5,10 @@ const { Patient } = require('../models/patientModel');
 const Doctor = require('../models/doctorModel');
 const { Test } = require('../models/testreportsModel');
 
-const getAllMeds = asyncHandler(async (req, res) => {
-  const medRec = await MedRecord.find({}).toString()
+const getAllMeds = asyncHandler(async (req,res) => {
 
-  res.status(200).json(medRec);
+    const medRec = await MedRecord.find({})
+    res.status(200).json(medRec);
 });
 
 const addMedRec = asyncHandler(async(req,res)=>{
