@@ -4,12 +4,18 @@ const Medication = require('../models/medicationsModel');
 const { Patient } = require('../models/patientModel');
 const Doctor = require('../models/doctorModel');
 const { Test } = require('../models/testreportsModel');
-const getAllMeds = asyncHandler(async (req,res) => {
 
-    const medRec = await MedRecord.find({})
-    res.status(200).json(medRec);
+const getAllMeds = asyncHandler(async (req, res) => {
+  const medRec = await MedRecord.find({}).lean();
+
+  // Convert the _id field to a string
+  const medRecWithIdAsString = medRec.map(record => ({
+    ...record,
+    _id: record._id.toString()
+  }));
+
+  res.status(200).json(medRecWithIdAsString);
 });
-
 
 const addMedRec = asyncHandler(async(req,res)=>{
     const {for_patient,assigned_by_doctor,prescription, test_assigned} = req.body;
