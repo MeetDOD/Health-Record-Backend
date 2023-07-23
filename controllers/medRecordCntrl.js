@@ -6,13 +6,7 @@ const Doctor = require('../models/doctorModel');
 const { Test } = require('../models/testreportsModel');
 
 const getAllMeds = asyncHandler(async (req, res) => {
-  const medRec = await MedRecord.find({}).lean();
-
-  // Convert the _id field to a string
-  const medRecWithIdAsString = medRec.map(record => ({
-    ...record,
-    _id: record._id.toString()
-  }));
+  const medRec = await MedRecord.find({}).toString()
 
   res.status(200).json(medRecWithIdAsString);
 });
