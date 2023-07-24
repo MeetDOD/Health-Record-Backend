@@ -7,7 +7,7 @@ const { Test } = require('../models/testreportsModel');
 
 const getAllMeds = asyncHandler(async (req,res) => {
 
-    const medRec = await MedRecord.find({})
+    const medRec = await MedRecord.find({}).populate('for_patient').populate('assigned_by_doctor').populate('prescription').populate('test_assigned')
     res.status(200).json(medRec);
 });
 
@@ -41,7 +41,7 @@ const addMedRec = asyncHandler(async(req,res)=>{
 const getSingleMedRec = asyncHandler(async(req,res)=>{
 
     const {id: medId} = req.params;
-    const medRec = await MedRecord.findById({_id: medId}).select(['-doctor_name']);
+    const medRec = await MedRecord.findById({_id: medId}).populate('for_patient').populate('assigned_by_doctor').populate('prescription').populate('test_assigned')
     if(!medRec){
         res.status(404);
         throw new Error(`Med record with id ${medId} does not exist`);
